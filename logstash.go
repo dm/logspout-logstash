@@ -137,10 +137,10 @@ func GetRancherInfo(c *docker.Container) *RancherInfo {
 		service = splitService[1]
 	}
 	stack := RancherStack{
-		Service:     service,
-		Name:        getLabel(c.Config.Labels, "io.rancher.stack.name"),
-		Full:        stackService,
-		Deployement: getLabel(c.Config.Labels, "io.rancher.service.deployment.unit"),
+		Service:    service,
+		Name:       getLabel(c.Config.Labels, "io.rancher.stack.name"),
+		Full:       stackService,
+		Deployment: getLabel(c.Config.Labels, "io.rancher.service.deployment.unit"),
 	}
 	environment := os.Getenv("RANCHER_ENV")
 	rancherInfo := RancherInfo{
@@ -162,6 +162,7 @@ func (a *LogstashAdapter) Stream(logstream chan *router.Message) {
 			Image:    m.Container.Config.Image,
 			Hostname: m.Container.Config.Hostname,
 			Labels:   getAllLabels(m.Container.Config.Labels),
+		}
 
 		if os.Getenv("DOCKER_LABELS") != "" {
 			dockerInfo.Labels = make(map[string]string)
@@ -230,7 +231,7 @@ type DockerInfo struct {
 }
 
 type RancherInfo struct {
-	Environment string           `json:"environment",omitempty`
+	Environment string           `json:"environment,omitempty"`
 	Container   RancherContainer `json:"container"`
 	Stack       RancherStack     `json:"stack"`
 }
@@ -243,9 +244,9 @@ type RancherContainer struct {
 }
 
 type RancherStack struct {
-	Service     string `json:"service"`               // io.rancher.stack_service.name
-	Name        string `json:"name"`                  // io.rancher.stack.name
-	Full        string `json:"full"`                  // io.rancher.stack_service.name
-	Global      string `json:"global,omitempty"`      // io.rancher.scheduler.global
-	Deployement string `json:"deployement,omitempty"` // io.rancher.service.deployment.unit
+	Service    string `json:"service"`              // io.rancher.stack_service.name
+	Name       string `json:"name"`                 // io.rancher.stack.name
+	Full       string `json:"full"`                 // io.rancher.stack_service.name
+	Global     string `json:"global,omitempty"`     // io.rancher.scheduler.global
+	Deployment string `json:"deployment,omitempty"` // io.rancher.service.deployment.unit
 }

@@ -1,4 +1,5 @@
 CONTAINER_NAME = logspout-logstash
+LOGSTASH_HOST ?= logstash.local
 NAME = dmacedo/logspout-logstash
 VERSION = v1.0.0
 
@@ -17,7 +18,8 @@ build-nc:
 
 ## Run container with assigned ports
 run:
-	docker run -it -d --rm --name="${CONTAINER_NAME}" ${NAME}:${VERSION}
+	docker run -it -d --rm -v /var/run/docker.sock:/var/run/docker.sock \
+	-e ROUTE_URIS=logstash+tcp://${LOGSTASH_HOST}:5000 --name="${CONTAINER_NAME}" ${NAME}:${VERSION}
 
 ## Stop and remove container
 stop:
