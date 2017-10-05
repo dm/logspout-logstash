@@ -1,7 +1,7 @@
 CONTAINER_NAME = logspout-logstash
 LOGSTASH_HOST ?= logstash.local
 NAME = dmacedo/logspout-logstash
-VERSION = v1.0.0
+VERSION = v1.0.1
 
 .PHONY: all build test tag_latest release ssh
 
